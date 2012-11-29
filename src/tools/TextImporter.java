@@ -12,29 +12,22 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.tools;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
-
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import net.opentsdb.core.TSDB;
+import net.opentsdb.core.Tags;
+import net.opentsdb.core.WritableDataPoints;
+import net.opentsdb.stats.StatsCollector;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.HBaseRpc;
 import org.hbase.async.PleaseThrottleException;
 import org.hbase.async.PutRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import net.opentsdb.core.Tags;
-import net.opentsdb.core.TSDB;
-import net.opentsdb.core.WritableDataPoints;
-import net.opentsdb.stats.StatsCollector;
+import java.io.*;
+import java.util.HashMap;
+import java.util.zip.GZIPInputStream;
 
 final class TextImporter {
 
@@ -142,7 +135,7 @@ final class TextImporter {
         final HashMap<String, String> tags = new HashMap<String, String>();
         for (int i = 3; i < words.length; i++) {
           if (!words[i].isEmpty()) {
-            Tags.parse(tags, words[i]);
+            Tags.parse(tags, words[i], '=');
           }
         }
         final WritableDataPoints dp = getDataPoints(tsdb, metric, tags);

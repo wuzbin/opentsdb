@@ -12,18 +12,16 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.tsd;
 
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
-
-import org.jboss.netty.channel.Channel;
-
 import net.opentsdb.core.TSDB;
 import net.opentsdb.core.Tags;
 import net.opentsdb.stats.StatsCollector;
 import net.opentsdb.uid.NoSuchUniqueName;
+import org.jboss.netty.channel.Channel;
+
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /** Implements the "put" telnet-style command. */
 final class PutDataPointRpc implements TelnetRpc {
@@ -112,7 +110,7 @@ final class PutDataPointRpc implements TelnetRpc {
     final HashMap<String, String> tags = new HashMap<String, String>();
     for (int i = 4; i < words.length; i++) {
       if (!words[i].isEmpty()) {
-        Tags.parse(tags, words[i]);
+        Tags.parse(tags, words[i], '=');
       }
     }
     if (value.indexOf('.') < 0) {  // integer value

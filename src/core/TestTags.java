@@ -12,9 +12,10 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.core;
 
+import org.junit.Test;
+
 import java.util.HashMap;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public final class TestTags {
@@ -22,10 +23,10 @@ public final class TestTags {
   @Test
   public void parseSuccessful() {
     final HashMap<String, String> tags = new HashMap<String, String>(2);
-    Tags.parse(tags, "foo=bar");
+    Tags.parse(tags, "foo=bar", '=');
     assertEquals(1, tags.size());
     assertEquals("bar", tags.get("foo"));
-    Tags.parse(tags, "qux=baz");
+    Tags.parse(tags, "qux=baz", '=');
     assertEquals(2, tags.size());
     assertEquals("bar", tags.get("foo"));
     assertEquals("baz", tags.get("qux"));
@@ -33,40 +34,40 @@ public final class TestTags {
 
   @Test(expected=IllegalArgumentException.class)
   public void parseNoEqualSign() {
-    Tags.parse(new HashMap<String, String>(1), "foo");
+    Tags.parse(new HashMap<String, String>(1), "foo", '=');
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void parseTooManyEqualSigns() {
-    Tags.parse(new HashMap<String, String>(1), "foo=bar=qux");
+    Tags.parse(new HashMap<String, String>(1), "foo=bar=qux", '=');
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void parseEmptyTagName() {
-    Tags.parse(new HashMap<String, String>(1), "=bar");
+    Tags.parse(new HashMap<String, String>(1), "=bar", '=');
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void parseEmptyTagValue() {
-    Tags.parse(new HashMap<String, String>(1), "foo=");
+    Tags.parse(new HashMap<String, String>(1), "foo=", '=');
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void parseDifferentValues() {
     final HashMap<String, String> tags = new HashMap<String, String>(1);
-    Tags.parse(tags, "foo=bar");
+    Tags.parse(tags, "foo=bar", '=');
     assertEquals(1, tags.size());
     assertEquals("bar", tags.get("foo"));
-    Tags.parse(tags, "foo=qux");
+    Tags.parse(tags, "foo=qux", '=');
   }
 
   @Test
   public void parseSameValues() {
     final HashMap<String, String> tags = new HashMap<String, String>(1);
-    Tags.parse(tags, "foo=bar");
+    Tags.parse(tags, "foo=bar", '=');
     assertEquals(1, tags.size());
     assertEquals("bar", tags.get("foo"));
-    Tags.parse(tags, "foo=bar");
+    Tags.parse(tags, "foo=bar", '=');
     assertEquals(1, tags.size());
     assertEquals("bar", tags.get("foo"));
   }

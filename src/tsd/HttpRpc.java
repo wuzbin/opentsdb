@@ -12,12 +12,12 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.tsd;
 
-import java.io.IOException;
-
 import net.opentsdb.core.TSDB;
 
+import java.io.IOException;
+
 /** Base interface for all HTTP query handlers. */
-interface HttpRpc {
+public interface HttpRpc {
 
   /**
    * Executes this RPC.

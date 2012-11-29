@@ -12,25 +12,17 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.tools;
 
+import net.opentsdb.core.*;
+import net.opentsdb.graph.Plot;
+import org.hbase.async.HBaseClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.hbase.async.HBaseClient;
-
-import net.opentsdb.core.Aggregator;
-import net.opentsdb.core.Aggregators;
-import net.opentsdb.core.Query;
-import net.opentsdb.core.DataPoint;
-import net.opentsdb.core.DataPoints;
-import net.opentsdb.core.Tags;
-import net.opentsdb.core.TSDB;
-import net.opentsdb.graph.Plot;
 
 final class CliQuery {
 
@@ -224,7 +216,7 @@ final class CliQuery {
       final HashMap<String, String> tags = new HashMap<String, String>();
       while (i < args.length && args[i].indexOf(' ', 1) < 0
              && args[i].indexOf('=', 1) > 0) {
-        Tags.parse(tags, args[i++]);
+        Tags.parse(tags, args[i++], '=');
       }
       if (i < args.length && args[i].indexOf(' ', 1) > 0) {
         plotoptions.add(args[i++]);
@@ -246,7 +238,7 @@ final class CliQuery {
     final HashMap<String, String> result =
       new HashMap<String, String>(params.size());
     for (final String param : params) {
-      Tags.parse(result, param.substring(1));
+      Tags.parse(result, param.substring(1), '=');
     }
     return result;
   }

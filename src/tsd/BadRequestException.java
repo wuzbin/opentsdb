@@ -15,7 +15,7 @@ package net.opentsdb.tsd;
 /**
  * Exception thrown by the HTTP handlers when presented with a bad request.
  */
-final class BadRequestException extends RuntimeException {
+public final class BadRequestException extends RuntimeException {
 
   public BadRequestException(final String message) {
     super(message);

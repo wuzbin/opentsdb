@@ -12,19 +12,13 @@
 // see <http://www.gnu.org/licenses/>.
 package net.opentsdb.core;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
+import net.opentsdb.uid.NoSuchUniqueId;
+import net.opentsdb.uid.NoSuchUniqueName;
+import org.hbase.async.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.hbase.async.Bytes;
-
-import net.opentsdb.uid.NoSuchUniqueId;
-import net.opentsdb.uid.NoSuchUniqueName;
+import java.util.*;
 
 /** Helper functions to deal with tags. */
 public final class Tags {
@@ -65,7 +59,18 @@ public final class Tags {
     result[i] = new String(chars, start, pos - start);
     return result;
   }
-
+    /**
+     * Parses a tag into a HashMap.
+     * @param tags The HashMap into which to store the tag.
+     * @param tag A String of the form "tag=value".
+     * @throws IllegalArgumentException if the tag is malformed.
+     * @throws IllegalArgumentException if the tag was already in tags with a
+     * different value.
+     */
+    public static void parse(final HashMap<String, String> tags,
+                             final String tag) {
+        parse(tags, tag);
+    }
   /**
    * Parses a tag into a HashMap.
    * @param tags The HashMap into which to store the tag.
@@ -75,8 +80,8 @@ public final class Tags {
    * different value.
    */
   public static void parse(final HashMap<String, String> tags,
-                           final String tag) {
-    final String[] kv = splitString(tag, '=');
+                           final String tag, char delimiter) {
+    final String[] kv = splitString(tag, delimiter);
     if (kv.length != 2 || kv[0].length() <= 0 || kv[1].length() <= 0) {
       throw new IllegalArgumentException("invalid tag: " + tag);
     }
