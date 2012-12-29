@@ -74,7 +74,13 @@ tsdb_SRC := \
 	src/uid/NoSuchUniqueId.java	\
 	src/uid/NoSuchUniqueName.java	\
 	src/uid/UniqueId.java	\
-	src/uid/UniqueIdInterface.java
+	src/uid/UniqueIdInterface.java  \
+	src/sohuwl/tsd/HttpJsonRpc.java \
+	src/sohuwl/tsd/HttpPostRpc.java \
+	src/sohuwl/tsd/HttpPutRpc.java  \
+	src/sohuwl/utils/Criteria.java  \
+	src/sohuwl/utils/JsonBuffer.java    \
+	src/sohuwl/utils/JsonEncoder.java
 
 tsdb_DEPS = \
 	$(ASYNCHBASE)	\
@@ -86,7 +92,8 @@ tsdb_DEPS = \
 	$(NETTY)	\
 	$(SLF4J_API)	\
 	$(SUASYNC)	\
-	$(ZOOKEEPER)
+	$(ZOOKEEPER)    \
+	$(JSON)
 
 # Install all the .jar files in pkgdatadir.
 pkgdata_DATA = $(tsdb_DEPS) $(jar)

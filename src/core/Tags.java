@@ -69,7 +69,7 @@ public final class Tags {
      */
     public static void parse(final HashMap<String, String> tags,
                              final String tag) {
-        parse(tags, tag);
+        parse(tags, tag, '=');
     }
   /**
    * Parses a tag into a HashMap.
@@ -211,7 +211,7 @@ public final class Tags {
    * Extracts the value ID of the given tag UD name from the given row key.
    * @param tsdb The TSDB instance to use for UniqueId lookups.
    * @param row The row key in which to search the tag name.
-   * @param name The name of the tag to search in the row key.
+   * @param tag_id The name of the tag to search in the row key.
    * @return The value ID associated with the given tag ID, or null if this
    * tag ID isn't present in this row key.
    */

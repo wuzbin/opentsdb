@@ -13,21 +13,11 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-OPENTSDB_THIRD_PARTY_BASE_URL := http://opentsdb.googlecode.com/files
-FETCH_DEPENDENCY := ./build-aux/fetchdep.sh "$$@"
-all-am: build-aux/fetchdep.sh
-THIRD_PARTY =
+JSON_VERSION := 20090211
+JSON := third_party/json/json-$(JSON_VERSION).jar
+JSON_BASE_URL := http://search.maven.org/remotecontent?filepath=org/json/json/20090211
 
-include third_party/guava/include.mk
-include third_party/gwt/include.mk
-include third_party/hbase/include.mk
-include third_party/javassist/include.mk
-include third_party/junit/include.mk
-include third_party/logback/include.mk
-include third_party/mockito/include.mk
-include third_party/netty/include.mk
-include third_party/powermock/include.mk
-include third_party/slf4j/include.mk
-include third_party/suasync/include.mk
-include third_party/zookeeper/include.mk
-include third_party/json/include.mk
+$(JSON): $(JSON).md5
+	set dummy "$(JSON_BASE_URL)" "$(JSON)"; shift; $(FETCH_DEPENDENCY)
+
+THIRD_PARTY += $(JSON)
